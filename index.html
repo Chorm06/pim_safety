@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>PIM Safety Challenge</title>
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&family=Sarabun:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="game"></div>
+
+  <!-- หน้าจอบังคับแนวนอน: แสดงเฉพาะอุปกรณ์จอสัมผัสที่ถือแนวตั้ง (คุมด้วย CSS + main.js) -->
+  <div id="rotate-overlay" aria-live="polite">
+    <div class="rotate-icon" aria-hidden="true">📱</div>
+    <p>กรุณาหมุนเครื่องเป็นแนวนอน</p>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

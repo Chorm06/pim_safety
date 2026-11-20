@@ -1,0 +1,53 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  /* กันการเลื่อน/ซูม/เลือกข้อความบนมือถือระหว่างเล่น */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #0b1f3a;
+  color: #fff;
+  font-family: 'Prompt', 'Sarabun', sans-serif;
+  font-size: 22px;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* ใส่คลาสนี้ที่ <body> โดย main.js เมื่อเป็นจอสัมผัสและถือแนวตั้ง */
+body.is-portrait #rotate-overlay {
+  display: flex;
+}
+
+.rotate-icon {
+  font-size: 72px;
+  animation: rotate-hint 2s ease-in-out infinite;
+}
+
+@keyframes rotate-hint {
+  0%, 20% { transform: rotate(0deg); }
+  50%, 70% { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
