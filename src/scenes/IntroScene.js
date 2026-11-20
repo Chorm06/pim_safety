@@ -3,6 +3,7 @@ import { INTRO_KEY } from '../systems/Assets.js';
 import { addCoverImage, imageToScreen } from '../ui/ImageFit.js';
 import { requestTiltPermission, isTouchDevice } from '../systems/InputManager.js';
 import { CONFIG, MIN_TOUCH_SIZE } from '../config.js';
+import { unlockAudio } from '../systems/AudioManager.js';
 
 // ตำแหน่งปุ่ม "เริ่มต้นการทดสอบ" ที่อยู่ในภาพ intro.jpg อยู่แล้ว (สัดส่วน 0–1 ของภาพ)
 // วางพื้นที่กดโปร่งใสทับปุ่มในภาพ แทนการวาดปุ่มซ้ำ
@@ -54,6 +55,7 @@ export default class IntroScene extends Phaser.Scene {
   async onStart() {
     if (this.starting) return;
     this.starting = true;
+    unlockAudio(); // iOS: ต้องปลดล็อกเสียงจากการแตะของผู้ใช้
 
     // จังหวะแตะครั้งแรก = จังหวะขออนุญาตเซนเซอร์เอียงบน iOS
     // ถ้าไม่อนุญาต จะใช้ปุ่มบนจอแทน (ระบบเลือกโหมดทำใน Step 4)
@@ -66,7 +68,9 @@ export default class IntroScene extends Phaser.Scene {
 
     this.cameras.main.fadeOut(300, 0, 0, 0);
     this.cameras.main.once('camerafadeoutcomplete', () => {
-      this.scene.start('PendingScene', { from: 'IntroScene' });
+      // TODO Step 3–4: Title → Drive → Hazard (ตอนนี้เข้า Hazard ข้อ 1 ตรงๆ)
+      this.registry.set('results', []);
+      this.scene.start('HazardScene', { index: 0 });
     });
   }
 }

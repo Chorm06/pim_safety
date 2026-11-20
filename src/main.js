@@ -3,6 +3,8 @@ import { GAME_WIDTH, GAME_HEIGHT, CONFIG } from './config.js';
 import BootScene from './scenes/BootScene.js';
 import IntroScene from './scenes/IntroScene.js';
 import PendingScene from './scenes/PendingScene.js';
+import HazardScene from './scenes/HazardScene.js';
+import DebugScene from './scenes/DebugScene.js';
 import { isTouchDevice } from './systems/InputManager.js';
 
 // รอฟอนต์ Prompt / Sarabun โหลดเสร็จก่อนเริ่มเกม (ไม่เกิน 4 วินาที กันเน็ตช้าแล้วค้าง)
@@ -54,7 +56,7 @@ async function start() {
     input: { activePointers: 3 }, // มือถือ: กดหลายนิ้วพร้อมกัน (เลี้ยว + เร่ง)
     render: { antialias: true },
     banner: false,
-    scene: [BootScene, IntroScene, PendingScene]
+    scene: [BootScene, IntroScene, HazardScene, PendingScene, DebugScene]
   });
 
   game.events.once(Phaser.Core.Events.READY, () => setupOrientationGuard(game));

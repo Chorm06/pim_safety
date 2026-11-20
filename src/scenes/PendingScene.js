@@ -1,11 +1,15 @@
 import Phaser from 'phaser';
 import Button from '../ui/Button.js';
-import { GAME_WIDTH, GAME_HEIGHT, FONT_HEADING, FONT_BODY } from '../config.js';
+import { GAME_WIDTH, FONT_HEADING, FONT_BODY } from '../config.js';
 
-// ฉากชั่วคราวของ Step 1: แสดงว่ากดเริ่มแล้วเข้ามาได้ (จะถูกแทนด้วย TitleScene ใน Step 3)
+// ฉากชั่วคราวของ Step 2: แสดงผลข้อที่ตอบถูก แทน Accident/Lesson (ทำใน Step 3)
 export default class PendingScene extends Phaser.Scene {
   constructor() {
     super('PendingScene');
+  }
+
+  init(data) {
+    this.data_ = data || {};
   }
 
   create() {
@@ -13,26 +17,29 @@ export default class PendingScene extends Phaser.Scene {
     this.cameras.main.fadeIn(300, 0, 0, 0);
     const cx = GAME_WIDTH / 2;
     const scenarios = this.registry.get('scenarios') || [];
-    const tilt = this.registry.get('tiltPermission');
+    const { index = 0, result } = this.data_;
+    const next = index + 1;
 
     this.add
-      .text(cx, 170, '[ฉากถัดไปจะทำใน Step 2–3]', {
-        fontFamily: FONT_HEADING, fontSize: '44px', fontStyle: '700', color: '#ffe066', padding: { top: 10, bottom: 4 }
+      .text(cx, 130, '[AccidentScene / LessonScene จะทำใน Step 3]', {
+        fontFamily: FONT_HEADING, fontSize: '40px', fontStyle: '700', color: '#ffe066', padding: { top: 10, bottom: 4 }
       })
       .setOrigin(0.5);
 
-    // ข้อมูลตรวจสอบสำหรับผู้ทดสอบ (อ่านจาก scenario.json จริง)
-    const lines = [
-      `โหลด scenario.json แล้ว: ${scenarios.length} ข้อ`,
-      ...scenarios.map((s) => `ข้อ ${s.id}: ${s.title}`),
-      `สิทธิ์เซนเซอร์เอียงเครื่อง: ${tilt}`
-    ];
+    const lines = result
+      ? [`ข้อ ${result.id}: ตอบถูกแล้ว`, `จำนวนครั้งที่เลือก: ${result.attempts}`, `เวลาที่ใช้: ${result.timeSec} วินาที`]
+      : ['ยังไม่มีผล'];
     this.add
-      .text(cx, 330, lines.join('\n'), {
-        fontFamily: FONT_BODY, fontSize: '30px', color: '#ffffff', align: 'center', lineSpacing: 10, padding: { top: 8, bottom: 4 }
+      .text(cx, 300, lines.join('\n'), {
+        fontFamily: FONT_BODY, fontSize: '36px', color: '#ffffff', align: 'center', lineSpacing: 12, padding: { top: 8, bottom: 4 }
       })
       .setOrigin(0.5);
 
-    new Button(this, cx, GAME_HEIGHT - 130, 'กลับหน้าแรก', () => this.scene.start('IntroScene'));
+    if (next < scenarios.length) {
+      new Button(this, cx - 200, 560, `ข้อถัดไป (${next + 1})`, () => this.scene.start('HazardScene', { index: next }));
+      new Button(this, cx + 200, 560, 'กลับหน้าแรก', () => this.scene.start('IntroScene'), { fill: 0x334155, fillHover: 0x475569 });
+    } else {
+      new Button(this, cx, 560, 'กลับหน้าแรก', () => this.scene.start('IntroScene'));
+    }
   }
 }

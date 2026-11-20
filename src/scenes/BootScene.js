@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { GAME_WIDTH, GAME_HEIGHT, FONT_HEADING, FONT_BODY } from '../config.js';
+import { CONFIG, GAME_WIDTH, GAME_HEIGHT, FONT_HEADING, FONT_BODY } from '../config.js';
 import { listAllImages } from '../systems/Assets.js';
 
 // BootScene: โหลด scenario.json ก่อน แล้วจึงโหลดภาพทั้งหมดตามรายการใน json พร้อมแถบโหลด
@@ -39,6 +39,10 @@ export default class BootScene extends Phaser.Scene {
     this.load.on('progress', (v) => this.updateBar(v));
     this.load.once('complete', () => {
       this.createPlaceholders();
+      if (CONFIG.DEBUG) {
+        this.scene.launch('DebugScene');
+        this.scene.bringToTop('DebugScene');
+      }
       this.scene.start('IntroScene');
     });
     this.load.start();
