@@ -1,9 +1,10 @@
-// GameFlow — ลำดับฉากของเกมรวมไว้ที่เดียว (Step 4 จะแทรก DriveScene ระหว่าง Title กับ Hazard)
-//   Intro → [ต่อข้อ] Title → Hazard → Accident → Lesson → ... → Result
+// GameFlow — ลำดับฉากของเกมรวมไว้ที่เดียว
+//   Intro → [ต่อข้อ] Title → Drive → Hazard → Accident → Lesson → ... → Result
 
 export const FLOW = {
   afterIntro: 'TitleScene',
-  afterTitle: 'HazardScene',
+  afterTitle: 'DriveScene',
+  afterDrive: 'HazardScene',
   afterHazard: 'AccidentScene',
   afterAccident: 'LessonScene',
   afterLastLesson: 'ResultScene'

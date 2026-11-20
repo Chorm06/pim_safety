@@ -6,6 +6,19 @@ export const UI_TEXT = {
   timeoutButton: 'ตกลง',
   retryButton: 'ลองใหม่',
 
+  // DriveScene
+  accelerate: 'เร่ง',
+  brake: 'เบรก',
+  laneLeft: '◀',
+  laneRight: '▶',
+  modeButtons: 'ปุ่มกด',
+  modeTilt: 'เอียงเครื่อง',
+  modePrefix: 'ควบคุม: ',
+  keyboardHint: '← → เปลี่ยนเลน   ↑ เร่ง   ↓ เบรก',
+  tiltDenied: 'ไม่ได้รับอนุญาตให้ใช้การเอียงเครื่อง ใช้ปุ่มกดแทน',
+  tiltUnsupported: 'อุปกรณ์นี้ไม่รองรับการเอียงเครื่อง ใช้ปุ่มกดแทน',
+  speedUnit: 'km/h',
+
   // ResultScene
   missionCompleted: 'Mission Completed',
   firstTryPercent: 'ตอบถูกในครั้งแรก',

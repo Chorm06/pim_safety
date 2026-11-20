@@ -68,6 +68,10 @@ export function playSfx(name) {
       case 'wrong':
         tone(ac, { freq: 260, to: 140, dur: 0.35, type: 'sawtooth', vol: 0.12 });
         break;
+      case 'bump':
+        noise(ac, { dur: 0.18, vol: 0.25 });
+        tone(ac, { freq: 180, to: 90, dur: 0.18, type: 'square', vol: 0.12 });
+        break;
       case 'crash':
         noise(ac, { dur: 0.6, vol: 0.5 });
         tone(ac, { freq: 120, to: 40, dur: 0.5, type: 'sine', vol: 0.4 });
