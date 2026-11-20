@@ -9,17 +9,13 @@ import HotspotEditor from '../ui/HotspotEditor.js';
 import Popup from '../ui/Popup.js';
 import { CountdownTimer, TimerView } from '../ui/Timer.js';
 import { debugButton, debugLabel, copyText, debugToast } from '../ui/DebugUI.js';
+import { UI_TEXT } from '../ui/strings.js';
+import { FLOW, goTo } from '../systems/GameFlow.js';
 
 // ระยะเวลาแสดงภาพคำถามก่อนเปลี่ยนเป็นภาพตัวเลือก (ตาม Prompt)
 const QUESTION_MS = 2500;
 const CORRECT_DELAY_MS = 900;
 
-// ข้อความ UI ของระบบ (ไม่ใช่เนื้อหาความปลอดภัย)
-const UI_TEXT = {
-  timeout: 'กรุณาเลือกจุดที่คิดว่าเสี่ยงที่สุด',
-  timeoutButton: 'ตกลง',
-  retryButton: 'ลองใหม่'
-};
 
 /**
  * HazardScene — ช่วงเลือกจุดเสี่ยง
@@ -32,6 +28,7 @@ export default class HazardScene extends Phaser.Scene {
 
   init(data) {
     this.index = data && Number.isInteger(data.index) ? data.index : 0;
+    this._leaving = false;
   }
 
   create() {
@@ -150,11 +147,7 @@ export default class HazardScene extends Phaser.Scene {
     results.push(result);
     this.registry.set('results', results);
 
-    this.cameras.main.fadeOut(300, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => {
-      // TODO Step 3: ไป AccidentScene
-      this.scene.start('PendingScene', { from: 'HazardScene', index: this.index, result });
-    });
+    goTo(this, FLOW.afterHazard, { index: this.index });
   }
 
   // ---------- โหมด Debug ----------

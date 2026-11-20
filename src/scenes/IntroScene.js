@@ -4,6 +4,7 @@ import { addCoverImage, imageToScreen } from '../ui/ImageFit.js';
 import { requestTiltPermission, isTouchDevice } from '../systems/InputManager.js';
 import { CONFIG, MIN_TOUCH_SIZE } from '../config.js';
 import { unlockAudio } from '../systems/AudioManager.js';
+import { FLOW, goTo, setScreenReaderText } from '../systems/GameFlow.js';
 
 // ตำแหน่งปุ่ม "เริ่มต้นการทดสอบ" ที่อยู่ในภาพ intro.jpg อยู่แล้ว (สัดส่วน 0–1 ของภาพ)
 // วางพื้นที่กดโปร่งใสทับปุ่มในภาพ แทนการวาดปุ่มซ้ำ
@@ -16,6 +17,8 @@ export default class IntroScene extends Phaser.Scene {
 
   create() {
     this.starting = false;
+    this._leaving = false;
+    setScreenReaderText('PIM Safety Challenge');
     this.cameras.main.fadeIn(300, 0, 0, 0);
 
     this.bg = addCoverImage(this, INTRO_KEY);
@@ -66,11 +69,7 @@ export default class IntroScene extends Phaser.Scene {
       this.registry.set('tiltPermission', 'unsupported');
     }
 
-    this.cameras.main.fadeOut(300, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => {
-      // TODO Step 3–4: Title → Drive → Hazard (ตอนนี้เข้า Hazard ข้อ 1 ตรงๆ)
-      this.registry.set('results', []);
-      this.scene.start('HazardScene', { index: 0 });
-    });
+    this.registry.set('results', []);
+    goTo(this, FLOW.afterIntro, { index: 0 });
   }
 }

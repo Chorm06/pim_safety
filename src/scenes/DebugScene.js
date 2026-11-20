@@ -26,6 +26,7 @@ export default class DebugScene extends Phaser.Scene {
     const has = (k) => Boolean(sceneKeys[k]);
     const items = [
       { label: 'Intro', key: 'IntroScene' },
+      { label: 'Title', key: 'TitleScene', perScenario: true },
       { label: 'Drive', key: 'DriveScene', perScenario: true },
       { label: 'Hazard', key: 'HazardScene', perScenario: true },
       { label: 'Accident', key: 'AccidentScene', perScenario: true },
